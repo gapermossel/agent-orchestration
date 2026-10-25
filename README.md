@@ -2,8 +2,8 @@
 
 Hierarchical multi-agent system with a central orchestrator (Chief of Staff) and specialised desks.
 
-## Hierarchy
-![Grok Bots order-of-battle hierarchy](hierarchy.png)
+## Team structure
+![Grok Bots team structure](hierarchy.png)
 
 ## Architecture
 - **COS (Orchestrator)** — mission board, daily sitrep, and coordination of specialised desks.
