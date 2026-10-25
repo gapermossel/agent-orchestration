@@ -21,6 +21,10 @@ Hierarchical multi-agent system with a central orchestrator (Chief of Staff) and
 - Daily host & network health sweep with drift detection and approval gate
 
 ## Code samples
-Short, self-contained excerpts from our apps (money types, VAT logic, bank statement import, append-only journal, fail-closed redaction, org chart): see [snippets/](snippets/).
+Short, self-contained excerpts from our apps: [snippets/](snippets/)
+- **Ledger**: money types, VAT logic, bank statement import, append-only journal, tests
+- **HQ Dashboard**: fail-closed redaction, org chart rendering
+- **Plaasboek**: livestock database, validation, offline herd sync
+- **Aether Timetable**: timetable scheduler, clash detection, CSV import
 
 Contact: lightfootwilrich@gmail.com
