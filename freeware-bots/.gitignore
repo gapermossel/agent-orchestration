@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+config/config.json
+data/
+logs/
+*.log
+_runlogs/
+_work/
+vendor/

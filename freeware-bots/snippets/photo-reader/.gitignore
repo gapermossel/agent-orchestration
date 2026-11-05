@@ -1,0 +1,4 @@
+data/
+.releases/
+config/config.json
+__pycache__/

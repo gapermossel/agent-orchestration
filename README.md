@@ -19,6 +19,8 @@ This repo demonstrates practical multi-agent design (clear boundaries, approval 
   - Archivist — knowledge vault capture, formatting, and filing
   - Intel — structured research briefs
   - Clerk — operational document capture and allocation
+  - New since 2026-10-27: Security sub-desks (Endpoint, Detection, Alert, Visual, Red Team), Engineer, Bot Foundry, Sales & Support
+  - One file per desk in [`desks/`](desks/)
 
 ## Key mechanisms
 - Reusable skills (steps, decision rules, expected outputs, safety boundaries)
@@ -37,6 +39,8 @@ Selected snippets from earlier systems are in the [`snippets/`](snippets/) direc
 - HQ Dashboard — fail-closed redaction, org chart rendering
 - Plaasboek — livestock database, validation, offline herd sync
 - Aether Timetable — scheduler, clash detection, CSV import
+
+Free self-hosted bots (local models via Ollama) are in [`freeware-bots/`](freeware-bots/). Phanes model definitions will go in [`phanes/`](phanes/).
 
 ## Contact
 lightfootwilrich@gmail.com
