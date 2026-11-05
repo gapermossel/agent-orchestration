@@ -40,7 +40,7 @@ Selected snippets from earlier systems are in the [`snippets/`](snippets/) direc
 - Plaasboek — livestock database, validation, offline herd sync
 - Aether Timetable — scheduler, clash detection, CSV import
 
-Free self-hosted bots (local models via Ollama) are in [`freeware-bots/`](freeware-bots/). Phanes model definitions will go in [`phanes/`](phanes/).
+Free self-hosted bots (local models via Ollama) are in [`freeware-bots/`](freeware-bots/). Phanes Ollama Modelfiles (agent, code, fast, reason) are in [`phanes/`](phanes/).
 
 ## Contact
 lightfootwilrich@gmail.com

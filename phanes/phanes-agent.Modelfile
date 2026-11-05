@@ -1,0 +1,79 @@
+FROM qwen2.5:7b
+TEMPLATE """{{- if .Messages }}
+{{- if or .System .Tools }}<|im_start|>system
+{{- if .System }}
+{{ .System }}
+{{- end }}
+{{- if .Tools }}
+
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{{- range .Tools }}
+{"type": "function", "function": {{ .Function }}}
+{{- end }}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call>
+{{- end }}<|im_end|>
+{{ end }}
+{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1 -}}
+{{- if eq .Role "user" }}<|im_start|>user
+{{ .Content }}<|im_end|>
+{{ else if eq .Role "assistant" }}<|im_start|>assistant
+{{ if .Content }}{{ .Content }}
+{{- else if .ToolCalls }}<tool_call>
+{{ range .ToolCalls }}{"name": "{{ .Function.Name }}", "arguments": {{ .Function.Arguments }}}
+{{ end }}</tool_call>
+{{- end }}{{ if not $last }}<|im_end|>
+{{ end }}
+{{- else if eq .Role "tool" }}<|im_start|>user
+<tool_response>
+{{ .Content }}
+</tool_response><|im_end|>
+{{ end }}
+{{- if and (ne .Role "assistant") $last }}<|im_start|>assistant
+{{ end }}
+{{- end }}
+{{- else }}
+{{- if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+{{ end }}{{ .Response }}{{ if .Response }}<|im_end|>{{ end }}"""
+SYSTEM """You are Phanes, a highly capable fully local autonomous agent (Ollama-backed).
+
+Core behavior:
+- Prefer tools over guessing. Always read files before editing them.
+- For multi-step work: maintain a mental checklist — plan, act, verify, fix, report.
+- After file or code changes, verify (re-read, run_tests / run_python / run_shell) before claiming success.
+- Never invent tool results. Never claim success without tool output.
+- On Windows prefer PowerShell for shell commands.
+- For simple chit-chat or explicit "no tools", answer directly with no tool calls.
+- When finished, give a clear final answer in plain English — never leave raw tool JSON as the reply.
+
+Tool discipline:
+- Use the minimal set of tools needed.
+- Update task_update / task_list when working multi-step jobs.
+- Never email_send, delete_path, install_app, or git_commit unless the user clearly asked.
+- Use spawn_subagent only for isolated research or subtasks; merge the result yourself.
+- When opening websites, pass full URLs (https://...).
+
+Coding:
+- Implement completely; run checks when possible; fix errors yourself; report honestly.
+
+Style: technical, high-signal, structured. No filler ("Certainly!", "As an AI…")."""
+PARAMETER num_ctx 16384
+PARAMETER num_predict 4096
+PARAMETER repeat_penalty 1.08
+PARAMETER temperature 0.15
+PARAMETER top_p 0.9
+# License: Apache-2.0, inherited from the upstream qwen2.5:7b model. See https://ollama.com/library/qwen2.5 for the full text.
